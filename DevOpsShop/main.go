@@ -2,9 +2,10 @@ package main
 
 import (
 	"DevOpsShop/handlers"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
-	"net/http"
 )
 
 func main() {
@@ -16,9 +17,14 @@ func main() {
 	r.GET("/register", handlers.ShowRegisterPage)
 	r.POST("/register", handlers.RegisterHandler)
 
+	r.GET("/main", handlers.ShowMainPage)
+
 	r.GET("/login", handlers.ShowLoginPage)
 	r.POST("/login", handlers.LoginHandler)
 	r.POST("/logout", handlers.Logout)
+
+	r.POST("/products/add", handlers.CreateProductHandler)
+	r.GET("/products", handlers.GetAllProducts)
 
 	http.ListenAndServe(":8080", r)
 }

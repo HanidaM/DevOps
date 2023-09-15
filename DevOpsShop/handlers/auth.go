@@ -4,11 +4,12 @@ import (
 	"DevOpsShop/database"
 	"DevOpsShop/models"
 	"errors"
+	"net/http"
+	"time"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
-	"net/http"
-	"time"
 )
 
 func ShowRegisterPage(c *gin.Context) {
@@ -112,7 +113,7 @@ func LoginHandler(c *gin.Context) {
 
 	c.SetCookie("token", tokenString, int(time.Hour*24/time.Second), "/", "", false, true)
 
-	c.Redirect(http.StatusFound, "/")
+	c.Redirect(http.StatusFound, "/main")
 }
 
 func Logout(c *gin.Context) {
