@@ -47,11 +47,13 @@ func ShowMainPage(c *gin.Context) {
 		return
 	}
 
-	database.ConnectDB()
+	db, err := database.ConnectDB()
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
+
+	db.Find(&products)
 
 	c.HTML(http.StatusOK, "mainpage.html", gin.H{
 		"Products":        products,
