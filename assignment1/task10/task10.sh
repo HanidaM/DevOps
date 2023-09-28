@@ -1,0 +1,1 @@
+sudo sed -i '1s/^/127.0.0.1       mysite\n/' /etc/hosts

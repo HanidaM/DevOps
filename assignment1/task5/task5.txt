@@ -1,0 +1,28 @@
+step 1: sudo nano /etc/systemd/system/ecomapp.service
+unit file config: 
+[Unit]
+Description=Ecommerceapp
+After=network.target
+
+[Service]
+User=limited-user
+ExecStart=C:\Users\Bauyrzhan\Desktop\DevOps\DevOpsShop\main.go
+Restart=always
+RestartSec=3
+LimitNPROC=10
+LimitNOFILE=1024
+
+[Install]
+WantedBy=multi-user.target
+
+
+step 3: 
+sudo useradd -m -s /sbin/nologin limited-user
+
+step 4: setting permissions
+chmod u+rx main.go
+
+
+step 5:
+sudo systemctl enable ecomapp
+sudo systemctl start ecomapp

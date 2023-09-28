@@ -1,29 +1,46 @@
 
-your_id="21B031212"
-archive_filename="archive_1.zip"
+file_name="archive_"
+path="word.txt"
+i=1
+unzip "$file_name$i.zip"
 
-temp_dir=$(mktemp -d)
+rm -f "$file_name$i.zip"
 
-function process_archive() {
-    local archive=$1
-    local code_file=""
-
-    unzip -q "$archive" -d "$temp_dir"
-
-    code_file=$(find "$temp_dir" -type f -name "*.txt" -exec grep -l 'Code:' {} \;)
-
-    if [ -n "$code_file" ]; then
-        old_code=$(grep 'Code:' "$code_file" | cut -d ':' -f 2 | tr -d '[:space:]')
-        new_code="CodeWord_${your_id}"
-        sed -i "s/$old_code/$new_code/g" "$code_file"
-        zip -q -j "$archive" "$code_file"
+while [ $i -gt 0 ]
+do
+    if [ -f "$file_name$((i + 1)).zip" ]
+    then
+        rm -f "empty.txt"
+        echo "Extracting all the files now..."
+        unzip "$file_name$((i+1)).zip"
+        echo "Done!"
+        i=$((i + 1))
+        echo "$i"
+        rm -f "$file_name$i.zip"
     else
-        echo "Code file not found in $archive"
+        break
     fi
-}
+done
 
-process_archive "$archive_filename"
 
-rm -r "$temp_dir"
+rm -f "$file_name$i.zip"
+cat word.txt
 
-echo "Processing complete."
+echo "_21B031186" >> word.txt
+
+cat word.txt
+
+
+tar -cf "$file_name$i.zip" empty.txt word.txt
+
+while [ $i -gt 1 ]
+do
+    tar -cf "$file_name$((i-1)).zip" empty.txt  "archive_$i.zip"
+    rm -f "$file_name$i.zip"
+    i=$((i - 1))
+done
+
+rm -f "empty.txt"
+rm -f "word.txt"
+
+echo "done"
